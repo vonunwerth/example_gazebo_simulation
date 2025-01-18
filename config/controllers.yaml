@@ -1,0 +1,55 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 30
+    use_sim_time: true
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    position_forward_controller:
+      type: forward_command_controller/ForwardCommandController
+
+diff_drive_controller:
+  ros__parameters:
+    publish_rate: 50.0
+    base_frame_id: base_link
+
+    left_wheel_names: ['front_left_wheel_joint', 'rear_left_wheel_joint']
+    right_wheel_names: ['front_right_wheel_joint', 'rear_right_wheel_joint']
+    wheel_separation: 0.35
+    wheel_radius: 0.05
+
+    use_stamped_vel: false
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - arm_joint
+    state_interfaces:
+      - position
+      - velocity
+    command_interfaces:
+      - position
+    constraints:
+      goal_time: 0.5
+      stopped_velocity_tolerance: 0.01
+      arm_joint:
+        trajectory: 0.5
+        goal: 0.1
+
+position_forward_controller:
+  ros__parameters:
+    joints:
+      - rear_cube_joint
+    interface_name: position
+    state_interfaces:
+      - position
+      - velocity
+    command_interfaces:
+      - position
